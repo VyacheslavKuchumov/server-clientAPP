@@ -16,11 +16,12 @@ def handleClient(conn, addr):
     connected = True
     while connected:
         msgLength = conn.recv(HEADER).decode(FORMAT)
-        msgLength = int(msgLength)
-        msg = conn.recv(msgLength).decode(FORMAT)
-        if msg == DISCONNECT_MESSAGE:
-            connected = False
-        print(f"[{addr}] {msg}")
+        if msgLength:
+            msgLength = int(msgLength)
+            msg = conn.recv(msgLength).decode(FORMAT)
+            if msg == DISCONNECT_MESSAGE:
+                connected = False
+            print(f"[{addr}] {msg}")
 
     conn.close()
 
